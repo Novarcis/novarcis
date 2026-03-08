@@ -162,7 +162,7 @@ export function ProcessSection() {
                   <div className="w-6 h-6">{step.icon}</div>
                 </motion.div>
 
-                <div className="md:pt-20 text-center md:text-left flex flex-col items-center md:items-start w-full max-w-70 md:max-w-none">
+                <div className="md:pt-28 text-center md:text-left flex flex-col items-center md:items-start w-full max-w-70 md:max-w-none">
                   <div
                     className="md:hidden w-14 h-14 mx-auto mb-4 rounded-full bg-[#0D1117] border-2 flex items-center justify-center transition-colors"
                     style={{ borderColor: `${stepColors[i]}40` }}
