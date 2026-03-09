@@ -1,13 +1,12 @@
 import { NextResponse } from "next/server";
+import { n8nService } from "@/app/services/n8nService";
 
 export async function POST(req: Request) {
   try {
-    const { message, sessionId } = await req.json();
+    const { message, sessionId, conversationHistory, name } = await req.json();
 
     // Check if N8N webhook URL is configured
-    const webhookUrl = process.env.N8N_WEBHOOK_URL;
-
-    if (!webhookUrl) {
+    if (!n8nService.isConfigured()) {
       // Return a fallback response when webhook is not configured
       return NextResponse.json({
         reply: getFallbackResponse(message),
@@ -15,24 +14,23 @@ export async function POST(req: Request) {
     }
 
     // Forward message to N8N webhook
-    const response = await fetch(webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        message,
-        sessionId,
-        timestamp: new Date().toISOString(),
-      }),
+    const response = await n8nService.sendMessage({
+      message,
+      sessionId,
+      conversationHistory: conversationHistory || [],
+      name: name || "visitante"
     });
 
-    if (!response.ok) {
-      throw new Error(`N8N webhook responded with status: ${response.status}`);
+    if (!response.success) {
+      // Si devolvemos success: false pero hay un mensaje (ej error custom)
+      return NextResponse.json(
+        { reply: response.message },
+        { status: 500 } // Or 200 based on preference, but 500 triggers the catch block in the UI
+      );
     }
 
-    const data = await response.json();
-
     return NextResponse.json({
-      reply: data.output || data.text || data.reply || data.message,
+      reply: response.message,
     });
   } catch (error) {
     console.error("Chat API error:", error);

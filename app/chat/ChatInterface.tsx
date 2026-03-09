@@ -69,19 +69,11 @@ const MessageBubble = memo(({ message }: { message: Message }) => {
 MessageBubble.displayName = "MessageBubble";
 
 export default function ChatInterface() {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "welcome",
-      role: "assistant",
-      content:
-        "Hola. Soy novarcis. ¿En qué puedo ayudarte? Puedo responder preguntas sobre automatización, desarrollo con IA, o nuestros servicios.",
-      timestamp: new Date(),
-    },
-  ]);
-
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [logoState, setLogoState] = useState<LogoState>("idle");
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -94,6 +86,51 @@ export default function ChatInterface() {
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ block: "end" });
   }, []);
+
+  // Cargar mensajes iniciales y generar ID de sesión si no existe
+  useEffect(() => {
+    if (!sessionStorage.getItem("chatSessionId")) {
+      sessionStorage.setItem("chatSessionId", "session-" + Date.now());
+    }
+
+    const savedMessages = localStorage.getItem("novarcis-chat-history");
+    if (savedMessages) {
+      try {
+        const parsed = JSON.parse(savedMessages);
+        // Recuperar fechas como objetos Date
+        const restoredMessages = parsed.map((m: any) => ({
+          ...m,
+          timestamp: new Date(m.timestamp),
+        }));
+        setMessages(restoredMessages);
+      } catch (e) {
+        console.error("Error parsing chat history:", e);
+        setInitialGreeting();
+      }
+    } else {
+      setInitialGreeting();
+    }
+    setIsInitialized(true);
+  }, []);
+
+  const setInitialGreeting = () => {
+    setMessages([
+      {
+        id: "welcome",
+        role: "assistant",
+        content:
+          "Hola. Soy novarcis. ¿En qué puedo ayudarte? Puedo responder preguntas sobre automatización, desarrollo con IA, o nuestros servicios.",
+        timestamp: new Date(),
+      },
+    ]);
+  };
+
+  // Guardar mensajes temporales localmente cuando cambien
+  useEffect(() => {
+    if (isInitialized) {
+      localStorage.setItem("novarcis-chat-history", JSON.stringify(messages));
+    }
+  }, [messages, isInitialized]);
 
   useEffect(() => {
     scrollToBottom();
@@ -115,12 +152,20 @@ export default function ChatInterface() {
     setLogoState("thinking");
 
     try {
+      // Map all previous messages except the current one being typed
+      const conversationHistory = messages.map(msg => ({
+        role: msg.role,
+        content: msg.content
+      }));
+
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           message: userMessage.content,
-          sessionId: "session-" + Date.now(),
+          conversationHistory,
+          name: "visitante", // Default name according to the spec, this can be changed in the future
+          sessionId: sessionStorage.getItem("chatSessionId") || "session-" + Date.now(),
         }),
       });
 
