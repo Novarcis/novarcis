@@ -25,27 +25,28 @@ export function HeroSection() {
   };
 
   const renderAnimated = (text: string, startDelay: number, color: string) => {
-    let index = 0;
-    return text.split(" ").map((word, w) => (
-      <span key={w} className="inline-block whitespace-nowrap">
-        {word.split("").map((c, i) => {
-          const delay = startDelay + index++ * 0.03;
-          return (
-            <motion.span
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.05, delay }}
-              className="inline-block"
-              style={{ color }}
-            >
-              {c}
-            </motion.span>
-          );
-        })}
-        {w !== text.split(" ").length - 1 && <span>&nbsp;</span>}
-      </span>
-    ));
+    return text.split(" ").map((word, index, array) => {
+      const delay = startDelay + index * 0.15;
+
+      return (
+        <span key={index} className="inline-block whitespace-nowrap overflow-hidden">
+          <motion.span
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.4,
+              delay,
+              ease: [0.2, 0.65, 0.3, 0.9]
+            }}
+            className="inline-block"
+            style={{ color }}
+          >
+            {word}
+          </motion.span>
+          {index !== array.length - 1 && <span>&nbsp;</span>}
+        </span>
+      );
+    });
   };
 
   return (
@@ -53,6 +54,7 @@ export function HeroSection() {
       id="hero"
       className="snap-section relative w-full min-h-dvh flex flex-col items-center justify-center px-4 sm:px-6 overflow-hidden"
     >
+      {/* Background Orbs */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
           className="absolute w-[150vw] sm:w-200 h-[150vw] sm:h-200 -top-20 sm:-top-40 -right-20 sm:-right-40 rounded-full blur-3xl opacity-20"
@@ -75,6 +77,7 @@ export function HeroSection() {
         />
       </div>
 
+      {/* Particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {particles.map((p, i) => (
           <motion.div
@@ -96,13 +99,13 @@ export function HeroSection() {
         <LogoEntity state="idle" size="md" />
       </motion.div>
 
-      <div className="text-center z-10 w-full max-w-7xl mx-auto px-2 sm:px-4">
+      <div className="text-center z-10 w-full max-w-7xl mx-auto px-2 sm:px-4 relative">
         <h1 className="font-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-4 leading-tight sm:leading-none">
           <span className="block text-balance uppercase">
-            {renderAnimated(title1, 0.5, "#00F5FF")}
+            {renderAnimated(title1, 0.3, "#00F5FF")}
           </span>
           <span className="block mt-2 sm:mt-4 text-balance uppercase text-xl sm:text-2xl md:text-4xl lg:text-5xl tracking-wide">
-            {renderAnimated(title2, 0.5 + title1.length * 0.03, "#E8EDF5")}
+            {renderAnimated(title2, 0.3 + (title1.split(" ").length * 0.15), "#E8EDF5")}
           </span>
         </h1>
 
