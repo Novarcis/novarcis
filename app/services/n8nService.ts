@@ -52,18 +52,14 @@ export class N8nService {
                 }),
             });
 
-            console.log(`[n8nService] HTTP Status: ${response.status}`);
-
             if (!response.ok) {
-                console.error(`[n8nService] N8N webhook responded with status: ${response.status}`);
                 return {
                     success: false,
-                    message: `Error al conectar con el servidor (Status: ${response.status})`,
+                    message: `Error al conectar con el asistente.`,
                 };
             }
 
             const textResponse = await response.text();
-            console.log("[n8nService] Raw text response from n8n:", textResponse);
 
             let data: any = {};
             if (textResponse) {
@@ -79,13 +75,12 @@ export class N8nService {
                         data = data.json;
                     }
                 } catch (e) {
-                    console.warn("La respuesta de n8n no es un JSON válido. Texto crudo:", textResponse);
-                    // Si n8n responde con un texto plano que no es JSON, lo tratamos como el mensaje
+                    // Fallback to raw text
+
                     data = { message: textResponse };
                 }
             }
 
-            console.log("Parsed N8N Response:", data);
 
             // According to the user definition: {{ { success: true, message: $json.aiResponse || $json.response } }}
             // We can check if it explicitly sends success/message
@@ -101,7 +96,8 @@ export class N8nService {
                 message: reply,
             };
         } catch (error) {
-            console.error("Error in N8nService.sendMessage:", error);
+            // Eliminar traza completa de error de cliente por seguridad
+
             return {
                 success: false,
                 message: "Ocurrió un error al intentar enviar el mensaje al servidor.",

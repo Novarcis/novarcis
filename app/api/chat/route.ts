@@ -1,31 +1,86 @@
 import { NextResponse } from "next/server";
 import { n8nService } from "@/app/services/n8nService";
 
+// Basic in-memory rate limiter (in a real-world edge scenario, consider Upstash/Redis)
+const rateLimitMap = new Map<string, { count: number; timestamp: number }>();
+const RATE_LIMIT_MAX = 5; // 5 messages
+const RATE_LIMIT_WINDOW_MS = 60 * 1000; // per minute
+
 export async function POST(req: Request) {
   try {
-    const { message, sessionId, conversationHistory, name } = await req.json();
+    // 1. IP & CORS Basic Protection
+    const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
+
+    // Rate limiter execution
+    const now = Date.now();
+    const windowStart = now - RATE_LIMIT_WINDOW_MS;
+
+    // Cleanup old entries periodically
+    if (Math.random() < 0.1) {
+      for (const [key, value] of rateLimitMap.entries()) {
+        if (value.timestamp < windowStart) rateLimitMap.delete(key);
+      }
+    }
+
+    const currentRate = rateLimitMap.get(ip) || { count: 0, timestamp: now };
+    if (currentRate.timestamp < windowStart) {
+      currentRate.count = 1;
+      currentRate.timestamp = now;
+    } else {
+      currentRate.count++;
+    }
+    rateLimitMap.set(ip, currentRate);
+
+    if (currentRate.count > RATE_LIMIT_MAX) {
+      return NextResponse.json(
+        { reply: "Has alcanzado el límite de mensajes permitidos por minuto. Por favor, espera un momento antes de enviar otro." },
+        { status: 429 }
+      );
+    }
+
+    // 2. Input extraction
+    const body = await req.json();
+    let { message, sessionId, conversationHistory, name } = body;
+
+    // 3. Payload Validation and Token Limiting
+    // Limit message size to prevent huge prompt injection
+    if (!message || typeof message !== "string") {
+      return NextResponse.json({ reply: "Mensaje inválido." }, { status: 400 });
+    }
+    const safeMessage = message.substring(0, 500).trim();
+
+    // Limit conversation history to the last 10 messages (5 turns) to save tokens
+    let safeHistory: { role: "assistant" | "user"; content: string }[] = [];
+    if (Array.isArray(conversationHistory)) {
+      safeHistory = conversationHistory.slice(-10).map(msg => ({
+        // Ensure TS knows the role is exactly one of these two strings
+        role: (msg.role === "assistant" ? "assistant" : "user") as "assistant" | "user",
+        content: typeof msg.content === "string" ? msg.content.substring(0, 500) : ""
+      })).filter(msg => msg.content.length > 0);
+    }
+
+    const safeName = typeof name === "string" ? name.substring(0, 50).trim() : "visitante";
+    const safeSessionId = typeof sessionId === "string" ? sessionId.substring(0, 100).trim() : `session-${Date.now()}`;
 
     // Check if N8N webhook URL is configured
     if (!n8nService.isConfigured()) {
-      // Return a fallback response when webhook is not configured
       return NextResponse.json({
-        reply: getFallbackResponse(message),
+        reply: getFallbackResponse(safeMessage),
       });
     }
 
-    // Forward message to N8N webhook
+    // Forward sanitized message to N8N webhook
     const response = await n8nService.sendMessage({
-      message,
-      sessionId,
-      conversationHistory: conversationHistory || [],
-      name: name || "visitante"
+      message: safeMessage,
+      sessionId: safeSessionId,
+      conversationHistory: safeHistory,
+      name: safeName
     });
 
     if (!response.success) {
-      // Si devolvemos success: false pero hay un mensaje (ej error custom)
       return NextResponse.json(
         { reply: response.message },
-        { status: 500 } // Or 200 based on preference, but 500 triggers the catch block in the UI
+        { status: 500 }
       );
     }
 
@@ -33,11 +88,12 @@ export async function POST(req: Request) {
       reply: response.message,
     });
   } catch (error) {
-    console.error("Chat API error:", error);
+    // Only log essential errors, avoid exposing objects directly in prod
+    console.error("Chat API error processing request.");
     return NextResponse.json(
       {
         reply:
-          "Lo siento, hubo un error al procesar tu mensaje. Por favor intenta de nuevo.",
+          "Lo siento, hubo un error temporal en el servidor. Por favor intenta de nuevo.",
       },
       { status: 500 }
     );
