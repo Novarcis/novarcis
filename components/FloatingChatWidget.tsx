@@ -97,7 +97,10 @@ export function FloatingChatWidget() {
             sessionStorage.setItem("chatSessionId", "session-" + Date.now());
         }
 
-        const savedMessages = localStorage.getItem("novarcis-chat-history");
+        // Auto-clean old persistent storage if any remains
+        localStorage.removeItem("novarcis-chat-history");
+
+        const savedMessages = sessionStorage.getItem("novarcis-chat-history");
         if (savedMessages) {
             try {
                 const parsed = JSON.parse(savedMessages);
@@ -130,7 +133,7 @@ export function FloatingChatWidget() {
 
     useEffect(() => {
         if (isInitialized) {
-            localStorage.setItem("novarcis-chat-history", JSON.stringify(messages));
+            sessionStorage.setItem("novarcis-chat-history", JSON.stringify(messages));
         }
     }, [messages, isInitialized]);
 
