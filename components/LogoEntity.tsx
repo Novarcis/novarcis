@@ -198,7 +198,7 @@ export function LogoEntity({
 
       {/* Main logo image with rotation */}
       <motion.div
-        className="relative w-full h-full"
+        className="relative w-full h-full will-change-transform"
         animate={controls}
         style={{ transformOrigin: "center center" }}
       >
@@ -206,16 +206,10 @@ export function LogoEntity({
           src="/images/Logo-novarcis.png"
           alt="NexusAI Logo - Geometric sacred entity"
           fill
-          className="object-contain drop-shadow-2xl"
+          className="object-contain"
           style={{
-            filter:
-              state === "speaking"
-                ? "drop-shadow(0 0 30px rgba(167, 139, 250, 0.8)) drop-shadow(0 0 60px rgba(139, 92, 246, 0.5))"
-                : state === "thinking"
-                  ? "drop-shadow(0 0 20px rgba(167, 139, 250, 0.6)) drop-shadow(0 0 40px rgba(139, 92, 246, 0.4))"
-                  : state === "dormant"
-                    ? "drop-shadow(0 0 10px rgba(167, 139, 250, 0.3))"
-                    : "drop-shadow(0 0 15px rgba(167, 139, 250, 0.5)) drop-shadow(0 0 30px rgba(139, 92, 246, 0.3))",
+            // Static lightweight drop shadow - letting the CSS radial layers pulse behind it for performance
+            filter: "drop-shadow(0 0 15px rgba(167, 139, 250, 0.4))",
           }}
           priority
         />

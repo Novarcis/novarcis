@@ -15,7 +15,6 @@ const sections: Section[] = [
   { id: "services", label: "Servicios" },
   { id: "why-us", label: "Por Qué Nosotros" },
   { id: "process", label: "Proceso" },
-  { id: "contact", label: "Contacto" },
 ];
 
 
@@ -141,7 +140,7 @@ export function SectionNav() {
               )}
             </AnimatePresence>
 
-            <Link href="/chat" className="p-2">
+            <button onClick={() => window.dispatchEvent(new Event("open-ai-chat"))} className="p-2">
               <motion.div
                 className="w-3 h-3 rounded-full bg-linear-to-r from-[#7B2FFF] to-[#00F5FF]"
                 whileHover={{
@@ -151,7 +150,7 @@ export function SectionNav() {
                 }}
                 transition={{ duration: 0.2 }}
               />
-            </Link>
+            </button>
           </div>
         </motion.nav>
       )}
@@ -263,12 +262,15 @@ export function HamburgerMenu() {
                 </motion.button>
               ))}
 
-              <Link
-                href="/chat"
+              <button
+                onClick={() => {
+                  setIsOpen(false);
+                  window.dispatchEvent(new Event("open-ai-chat"));
+                }}
                 className="font-display text-2xl text-[#7B2FFF] hover:text-[#00F5FF] transition-colors"
               >
                 Chat IA
-              </Link>
+              </button>
             </div>
 
             <motion.div

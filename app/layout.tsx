@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { DM_Sans, JetBrains_Mono, Syne } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
+import { FloatingChatWidget } from "@/components/FloatingChatWidget";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -52,6 +53,7 @@ export default function RootLayout({
         <div className="grain-overlay" aria-hidden="true" />
         <div className="scanlines" aria-hidden="true" />
         {children}
+        <FloatingChatWidget />
         <Analytics />
       </body>
     </html>

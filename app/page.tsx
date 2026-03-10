@@ -5,8 +5,6 @@ import { ProblemSection } from "@/app/problem/ProblemSection";
 import { ServicesSection } from "@/app/our-services/ServicesSection";
 import { WhyUsSection } from "@/app/about-us/WhyUsSection";
 import { ProcessSection } from "@/app/our-process/ProcessSection";
-import { ContactSection } from "@/components/sections/ContactSection";
-
 export default function Home() {
   return (
     <main className="relative">
@@ -18,7 +16,6 @@ export default function Home() {
       <ServicesSection />
       <WhyUsSection />
       <ProcessSection />
-      <ContactSection />
     </main>
   );
 }

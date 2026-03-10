@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 
-type NavItem = { id: string; label: string; type: "scroll" | "link"; href?: string };
+type NavItem = { id: string; label: string; type: "scroll" | "link" | "event"; href?: string };
 
 const navItems: NavItem[] = [
   { id: "hero", label: "Inicio", type: "scroll" },
@@ -11,8 +11,7 @@ const navItems: NavItem[] = [
   { id: "services", label: "Servicios", type: "scroll" },
   { id: "why-us", label: "Nosotros", type: "scroll" },
   { id: "process", label: "Proceso", type: "scroll" },
-  { id: "contact", label: "Contacto", type: "scroll" },
-  { id: "chat", label: "IA", type: "link", href: "/chat" }
+  { id: "chat", label: "IA", type: "event" }
 ];
 
 export function IslandNav() {
@@ -31,22 +30,29 @@ export function IslandNav() {
       return;
     }
 
+    let scrollTicking = false;
     const handleScroll = () => {
-      const hero = document.getElementById("hero");
-      if (hero) {
-        const heroBottom = hero.offsetTop + hero.offsetHeight;
-        setIsVisible(window.scrollY > heroBottom * 0.25);
-      }
+      if (!scrollTicking) {
+        window.requestAnimationFrame(() => {
+          const hero = document.getElementById("hero");
+          if (hero) {
+            const heroBottom = hero.offsetTop + hero.offsetHeight;
+            setIsVisible(window.scrollY > heroBottom * 0.25);
+          }
 
-      const scrollItems = navItems.filter(i => i.type === "scroll");
-      const scrollPosition = window.scrollY + window.innerHeight / 3;
+          const scrollItems = navItems.filter(i => i.type === "scroll");
+          const scrollPosition = window.scrollY + window.innerHeight / 3;
 
-      for (let i = scrollItems.length - 1; i >= 0; i--) {
-        const section = document.getElementById(scrollItems[i].id);
-        if (section && section.offsetTop <= scrollPosition) {
-          setActiveSection(scrollItems[i].id);
-          break;
-        }
+          for (let i = scrollItems.length - 1; i >= 0; i--) {
+            const section = document.getElementById(scrollItems[i].id);
+            if (section && section.offsetTop <= scrollPosition) {
+              setActiveSection(prev => prev !== scrollItems[i].id ? scrollItems[i].id : prev);
+              break;
+            }
+          }
+          scrollTicking = false;
+        });
+        scrollTicking = true;
       }
     };
 
@@ -56,17 +62,29 @@ export function IslandNav() {
   }, [pathname]);
 
   useEffect(() => {
+    let mouseTicking = false;
     const handleMouseMove = (e: MouseEvent) => {
       if (pathname !== "/") return;
-      const triggerZone = 120;
-      setCursorNearNav(e.clientY < triggerZone);
+      if (!mouseTicking) {
+        window.requestAnimationFrame(() => {
+          const triggerZone = 120;
+          setCursorNearNav(prev => prev !== (e.clientY < triggerZone) ? (e.clientY < triggerZone) : prev);
+          mouseTicking = false;
+        });
+        mouseTicking = true;
+      }
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [pathname]);
 
   const handleNavClick = (item: NavItem) => {
+    if (item.type === "event" && item.id === "chat") {
+      window.dispatchEvent(new Event("open-ai-chat"));
+      return;
+    }
+
     if (item.type === "link") {
       router.push(item.href!);
       return;
@@ -149,7 +167,7 @@ export function IslandNav() {
         ))}
 
         <button
-          onClick={() => handleNavClick(navItems.find(i => i.id === "contact")!)}
+          onClick={() => window.dispatchEvent(new Event("open-ai-chat"))}
           className="relative ml-1 px-4 py-1.5 text-xs font-semibold rounded-full overflow-hidden group"
           style={{
             background:
@@ -157,7 +175,7 @@ export function IslandNav() {
           }}
         >
           <span className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          <span className="relative z-10 text-white">Empezar</span>
+          <span className="relative z-10 text-white">Chatear IA</span>
         </button>
       </div>
     </nav>
