@@ -75,46 +75,52 @@
 
 @layer base {
 
-* {
-  @apply border-border outline-ring/50;
-}
-
-body {
-  @apply bg-background text-foreground;
-}
-
-html {
-  overflow-y:auto;
-  scroll-behavior:smooth;
-  scroll-snap-type:y mandatory;
-}
-
-html::-webkit-scrollbar {
-  width:0;
-  height:0;
-}
-
-html {
-  scrollbar-width:none;
-}
-
-.snap-section{
-  scroll-snap-align:start;
-  min-height:100dvh;
-  position:relative;
-}
-
-.snap-full{
-  scroll-snap-align:start;
-  min-height:100dvh;
-}
-
-@media (min-width:768px){
-  .snap-section{
-    height:100dvh;
-    overflow:hidden;
+  * {
+    @apply border-border outline-ring/50;
   }
-}
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  html {
+    overflow-y: auto;
+    scroll-behavior: smooth;
+  }
+
+  html::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  html {
+    scrollbar-width: none;
+  }
+
+  .snap-section {
+    min-height: 100dvh;
+    position: relative;
+  }
+
+  .snap-full {
+    min-height: 100dvh;
+  }
+
+  @media (min-width: 768px) {
+    html {
+      scroll-snap-type: y mandatory;
+    }
+    
+    .snap-section {
+      scroll-snap-align: start;
+      height: 100dvh;
+      overflow: hidden;
+    }
+
+    .snap-full {
+      scroll-snap-align: start;
+    }
+  }
 
 }
 
