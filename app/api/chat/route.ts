@@ -6,6 +6,7 @@ const rateLimitMap = new Map<string, { count: number; timestamp: number }>();
 const RATE_LIMIT_MAX = 5; // 5 messages
 const RATE_LIMIT_WINDOW_MS = 60 * 1000; // per minute
 
+// inicio
 export async function POST(req: Request) {
   try {
     // 1. IP & CORS Basic Protection
