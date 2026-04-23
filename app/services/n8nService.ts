@@ -1,3 +1,5 @@
+import { NextResponse } from "next/server";
+
 export interface N8nMessagePayload {
     message: string;
     conversationHistory: { role: "user" | "assistant"; content: string }[];
@@ -107,3 +109,29 @@ export class N8nService {
 }
 
 export const n8nService = new N8nService();
+
+export async function POST(request: Request) {
+    try {
+        const body = await request.json();
+
+        const result = await n8nService.sendMessage({
+            message: body.message,
+            conversationHistory: body.conversationHistory || [],
+            name: body.name,
+            sessionId: body.sessionId
+        });
+
+        if (!result.success) {
+            return NextResponse.json(result, { status: 400 });
+        }
+
+        return NextResponse.json(result, { status: 200 });
+
+    } catch (error) {
+        console.error("Error en la ruta /api/chat:", error);
+        return NextResponse.json(
+            { success: false, message: "Error interno del servidor en Next.js." },
+            { status: 500 }
+        );
+    }
+}

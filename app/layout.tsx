@@ -27,9 +27,9 @@ export const metadata: Metadata = {
   description:
     "No te vendemos software, te vendemos la ventaja competitiva en tu sector. Soluciones de IA a medida para transformar tu negocio.",
   icons: {
-    icon: "/images/Logo-novarcis.png",
-    shortcut: "/images/Logo-novarcis.png",
-    apple: "/images/Logo-novarcis.png",
+    icon: "/images/Logo-novarcis.webp",
+    shortcut: "/images/Logo-novarcis.webp",
+    apple: "/images/Logo-novarcis.webp",
   },
 };
 
@@ -50,8 +50,6 @@ export default function RootLayout({
       className={`${dmSans.variable} ${jetbrainsMono.variable} ${syne.variable}`}
     >
       <body className="font-sans antialiased bg-[#080A0F] text-[#E8EDF5]">
-        <div className="grain-overlay" aria-hidden="true" />
-        <div className="scanlines" aria-hidden="true" />
         {children}
         <FloatingChatWidget />
         <Analytics />

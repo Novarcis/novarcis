@@ -1,5 +1,4 @@
 "use client";
-import { motion } from "framer-motion";
 import { LogoEntity } from "@/components/LogoEntity";
 import { useMemo } from "react";
 import Link from "next/link";
@@ -10,7 +9,7 @@ export function HeroSection() {
 
   const particles = useMemo(
     () =>
-      Array.from({ length: 30 }).map(() => ({
+      Array.from({ length: 10 }).map(() => ({
         x: Math.random() * 100,
         y: Math.random() * 100,
         d: 3 + Math.random() * 2,
@@ -19,26 +18,17 @@ export function HeroSection() {
     []
   );
 
-
   const renderAnimated = (text: string, startDelay: number, color: string) => {
     return text.split(" ").map((word, index, array) => {
       const delay = startDelay + index * 0.15;
-
       return (
         <span key={index} className="inline-block whitespace-nowrap overflow-hidden">
-          <motion.span
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.4,
-              delay,
-              ease: [0.2, 0.65, 0.3, 0.9]
-            }}
-            className="inline-block"
-            style={{ color }}
+          <span
+            className="inline-block hero-word-animate"
+            style={{ animationDelay: `${delay}s`, color }}
           >
             {word}
-          </motion.span>
+          </span>
           {index !== array.length - 1 && <span>&nbsp;</span>}
         </span>
       );
@@ -50,50 +40,43 @@ export function HeroSection() {
       id="hero"
       className="snap-section relative w-full min-h-dvh flex flex-col items-center justify-center px-4 sm:px-6 overflow-hidden"
     >
-      {/* Background Orbs - Optimized for macOS/Safari GPU */}
+      {/* Background Orbs - Pure CSS, GPU-composited */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          className="absolute w-[150vw] sm:w-[200vw] max-w-[1200px] h-[150vw] sm:h-[1200px] -top-20 sm:-top-40 -right-20 sm:-right-40 rounded-full blur-3xl opacity-20 will-change-transform"
+        <div
+          className="absolute w-[150vw] sm:w-[200vw] max-w-[1200px] h-[150vw] sm:h-[1200px] -top-20 sm:-top-40 -right-20 sm:-right-40 rounded-full blur-3xl will-change-transform hero-orb-1"
           style={{
             background:
               "radial-gradient(circle,rgba(0,245,255,0.4) 0%,rgba(123,47,255,0.2) 50%,transparent 70%)",
           }}
-          animate={{ opacity: [0.15, 0.25, 0.15], scale: [1, 1.02, 1] }}
-          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
         />
-
-        <motion.div
-          className="absolute w-[120vw] sm:w-[150vw] max-w-[1000px] h-[120vw] sm:h-[1000px] -bottom-10 sm:-bottom-20 -left-10 sm:-left-20 rounded-full blur-3xl opacity-15 will-change-transform"
+        <div
+          className="absolute w-[120vw] sm:w-[150vw] max-w-[1000px] h-[120vw] sm:h-[1000px] -bottom-10 sm:-bottom-20 -left-10 sm:-left-20 rounded-full blur-3xl will-change-transform hero-orb-2"
           style={{
             background:
               "radial-gradient(circle,rgba(123,47,255,0.4) 0%,rgba(255,45,120,0.2) 50%,transparent 70%)",
           }}
-          animate={{ opacity: [0.1, 0.2, 0.1], scale: [1, 1.05, 1] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
         />
       </div>
 
-      {/* Particles */}
+      {/* Particles - CSS only, reduced from 30 to 10 */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {particles.map((p, i) => (
-          <motion.div
+          <div
             key={i}
-            className="absolute w-1 h-1 rounded-full bg-[#00F5FF]/40"
-            style={{ left: `${p.x}%`, top: `${p.y}%` }}
-            animate={{ opacity: [0.2, 0.8, 0.2], scale: [1, 1.5, 1] }}
-            transition={{ duration: p.d, repeat: Infinity, delay: p.delay }}
+            className="absolute w-1 h-1 rounded-full bg-[#00F5FF]/40 hero-particle"
+            style={{
+              left: `${p.x}%`,
+              top: `${p.y}%`,
+              animationDuration: `${p.d}s`,
+              animationDelay: `${p.delay}s`,
+            }}
           />
         ))}
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1, delay: 0.2 }}
-        className="mb-6 sm:mb-8 md:mb-12 mt-12 sm:mt-0"
-      >
+      <div className="mb-6 sm:mb-8 md:mb-12 mt-12 sm:mt-0 hero-logo-entrance">
         <LogoEntity state="idle" size="md" />
-      </motion.div>
+      </div>
 
       <div className="text-center z-10 w-full max-w-7xl mx-auto px-2 sm:px-4 relative">
         <h1 className="font-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-4 leading-tight sm:leading-none">
@@ -101,25 +84,21 @@ export function HeroSection() {
             {renderAnimated(title1, 0.3, "#00F5FF")}
           </span>
           <span className="block mt-2 sm:mt-4 text-balance uppercase text-xl sm:text-2xl md:text-4xl lg:text-5xl tracking-wide">
-            {renderAnimated(title2, 0.3 + (title1.split(" ").length * 0.15), "#E8EDF5")}
+            {renderAnimated(title2, 0.3 + title1.split(" ").length * 0.15, "#E8EDF5")}
           </span>
         </h1>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5, duration: 0.8 }}
-          className="text-base sm:text-lg md:text-xl text-[#6B7A99] max-w-xl mx-auto mb-8 sm:mb-10 text-pretty px-4 sm:px-0"
+        <p
+          className="text-base sm:text-lg md:text-xl text-[#6B7A99] max-w-xl mx-auto mb-8 sm:mb-10 text-pretty px-4 sm:px-0 hero-fade-in"
+          style={{ animationDelay: "1.5s" }}
         >
           Novarcis: No te vendemos software, te vendemos la ventaja competitiva
           en tu sector. Soluciones de IA a medida para transformar tu negocio.
-        </motion.p>
+        </p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.8, duration: 0.6 }}
-          className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center w-full px-4 sm:px-0"
+        <div
+          className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center w-full px-4 sm:px-0 hero-slide-up"
+          style={{ animationDelay: "1.8s" }}
         >
           <button
             className="w-full sm:w-auto group relative px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-medium text-[#080A0F] bg-[#00F5FF] glow-cyan transition-all hover:scale-105 flex justify-center"
@@ -155,7 +134,7 @@ export function HeroSection() {
               <span>Ver una demo</span>
             </button>
           </Link>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

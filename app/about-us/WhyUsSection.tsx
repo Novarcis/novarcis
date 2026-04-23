@@ -87,59 +87,44 @@ export function WhyUsSection() {
             </div>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="relative hidden lg:flex items-center justify-center"
+          <div
+            className={`relative hidden lg:flex items-center justify-center ${isInView ? 'opacity-100' : 'opacity-0'}`}
+            style={{
+              transform: isInView ? 'scale(1)' : 'scale(0.9)',
+              transition: 'opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s',
+            }}
           >
             <div className="relative w-80 h-80">
-              <motion.div
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-linear-to-br from-[#00F5FF] to-[#7B2FFF]"
-                animate={{
-                  scale: [1, 1.1, 1],
-                  boxShadow: [
-                    "0 0 20px rgba(0, 245, 255, 0.3)",
-                    "0 0 40px rgba(0, 245, 255, 0.5)",
-                    "0 0 20px rgba(0, 245, 255, 0.3)",
-                  ],
-                }}
-                transition={{ duration: 3, repeat: Infinity }}
+              <div
+                className="absolute top-1/2 left-1/2 w-20 h-20 rounded-full bg-linear-to-br from-[#00F5FF] to-[#7B2FFF] whyus-center-sphere"
               />
 
-              {[120, 160, 200].map((size, i) => (
-                <motion.div
+              {[
+                { size: 120, borderColor: "rgba(0, 245, 255, 0.3)", dotColor: "#00F5FF", dotShadow: "rgba(0, 245, 255, 0.8)", duration: 15 },
+                { size: 160, borderColor: "rgba(123, 47, 255, 0.3)", dotColor: "#7B2FFF", dotShadow: "rgba(123, 47, 255, 0.8)", duration: 20 },
+                { size: 200, borderColor: "rgba(255, 45, 120, 0.2)", dotColor: "#FF2D78", dotShadow: "rgba(255, 45, 120, 0.8)", duration: 25 },
+              ].map((ring, i) => (
+                <div
                   key={i}
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border"
+                  className="absolute top-1/2 left-1/2 rounded-full border whyus-orbit-ring"
                   style={{
-                    width: size,
-                    height: size,
-                    borderColor:
-                      i === 0
-                        ? "rgba(0, 245, 255, 0.3)"
-                        : i === 1
-                          ? "rgba(123, 47, 255, 0.3)"
-                          : "rgba(255, 45, 120, 0.2)",
-                  }}
-                  animate={{ rotate: 360 }}
-                  transition={{
-                    duration: 15 + i * 5,
-                    repeat: Infinity,
-                    ease: "linear",
+                    width: ring.size,
+                    height: ring.size,
+                    borderColor: ring.borderColor,
+                    animationDuration: `${ring.duration}s`,
                   }}
                 >
-                  <motion.div
+                  <div
                     className="absolute w-3 h-3 rounded-full"
                     style={{
-                      backgroundColor:
-                        i === 0 ? "#00F5FF" : i === 1 ? "#7B2FFF" : "#FF2D78",
-                      boxShadow: `0 0 10px ${i === 0 ? "rgba(0, 245, 255, 0.8)" : i === 1 ? "rgba(123, 47, 255, 0.8)" : "rgba(255, 45, 120, 0.8)"}`,
+                      backgroundColor: ring.dotColor,
+                      boxShadow: `0 0 10px ${ring.dotShadow}`,
                       top: -6,
                       left: "50%",
                       marginLeft: -6,
                     }}
                   />
-                </motion.div>
+                </div>
               ))}
 
               <div className="absolute -top-4 -left-4 w-8 h-8 border-l-2 border-t-2 border-[#00F5FF]/30" />
@@ -147,7 +132,7 @@ export function WhyUsSection() {
               <div className="absolute -bottom-4 -left-4 w-8 h-8 border-l-2 border-b-2 border-[#7B2FFF]/30" />
               <div className="absolute -bottom-4 -right-4 w-8 h-8 border-r-2 border-b-2 border-[#FF2D78]/30" />
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

@@ -133,7 +133,7 @@ export function IslandNav() {
         >
           <div className="absolute inset-0 bg-linear-to-br from-purple-500/20 to-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           <Image
-            src="/images/Logo-novarcis.png"
+            src="/images/Logo-novarcis.webp"
             alt="Novarcis"
             width={28}
             height={28}

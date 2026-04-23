@@ -85,7 +85,6 @@
 
   html {
     overflow-y: auto;
-    scroll-behavior: smooth;
   }
 
   html::-webkit-scrollbar {
@@ -100,25 +99,29 @@
   .snap-section {
     min-height: 100dvh;
     position: relative;
+    contain: layout style paint;
   }
 
   .snap-full {
     min-height: 100dvh;
+    contain: layout style paint;
   }
 
   @media (min-width: 768px) {
     html {
       scroll-snap-type: y mandatory;
     }
-    
+
     .snap-section {
       scroll-snap-align: start;
+      scroll-snap-stop: always;
       height: 100dvh;
       overflow: hidden;
     }
 
     .snap-full {
       scroll-snap-align: start;
+      scroll-snap-stop: always;
     }
   }
 
@@ -250,4 +253,208 @@
 
 .float{
   animation:float 6s ease-in-out infinite;
+}
+
+/* ========================================
+   PERFORMANCE: CSS-only GPU animations
+   Zero main thread cost
+   ======================================== */
+
+/* Hero orb animations */
+@keyframes orb-pulse-1 {
+  0%, 100% { opacity: 0.15; transform: scale(1); }
+  50% { opacity: 0.25; transform: scale(1.02); }
+}
+@keyframes orb-pulse-2 {
+  0%, 100% { opacity: 0.1; transform: scale(1); }
+  50% { opacity: 0.2; transform: scale(1.05); }
+}
+.hero-orb-1 { animation: orb-pulse-1 15s ease-in-out infinite; }
+.hero-orb-2 { animation: orb-pulse-2 20s ease-in-out infinite; }
+
+/* Hero particle twinkle */
+@keyframes particle-twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.5); }
+}
+.hero-particle { animation: particle-twinkle 3s ease-in-out infinite; }
+
+/* Hero entrance animations */
+@keyframes hero-word-enter {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-word-animate {
+  display: inline-block;
+  opacity: 0;
+  animation: hero-word-enter 0.4s cubic-bezier(0.2, 0.65, 0.3, 0.9) forwards;
+}
+
+@keyframes hero-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.hero-fade-in {
+  opacity: 0;
+  animation: hero-fade-in 0.8s ease forwards;
+}
+
+@keyframes hero-slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-slide-up {
+  opacity: 0;
+  animation: hero-slide-up 0.6s ease forwards;
+}
+
+@keyframes hero-logo-entrance {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+.hero-logo-entrance {
+  animation: hero-logo-entrance 1s ease 0.2s both;
+}
+
+/* ========================================
+   LogoEntity CSS Animations
+   All states driven by CSS class swap
+   ======================================== */
+
+@keyframes logo-rotate {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes logo-wobble {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  20% { transform: rotate(5deg) scale(1.08); }
+  40% { transform: rotate(-5deg) scale(0.95); }
+  60% { transform: rotate(3deg) scale(1.05); }
+  80% { transform: rotate(-3deg) scale(0.98); }
+}
+
+@keyframes logo-rotate-think {
+  0% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(90deg) scale(0.92); }
+  50% { transform: rotate(180deg) scale(1); }
+  75% { transform: rotate(270deg) scale(0.92); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+@keyframes glow-outer-idle {
+  0%, 100% { opacity: 0.4; transform: scale(1.5); }
+  50% { opacity: 0.7; transform: scale(1.575); }
+}
+@keyframes glow-inner-idle {
+  0%, 100% { opacity: 0.3; transform: scale(1.2); }
+  50% { opacity: 0.6; transform: scale(1.0); }
+}
+@keyframes glow-core-idle {
+  0%, 100% { opacity: 0.2; transform: scale(0.5); }
+  50% { opacity: 0.4; transform: scale(0.7); }
+}
+
+@keyframes glow-outer-speaking {
+  0%, 100% { opacity: 0.6; transform: scale(1.5); }
+  50% { opacity: 1; transform: scale(1.95); }
+}
+@keyframes glow-inner-speaking {
+  0%, 100% { opacity: 0.5; transform: scale(1.08); }
+  50% { opacity: 1; transform: scale(1.44); }
+}
+@keyframes glow-core-speaking {
+  0%, 100% { opacity: 0.4; transform: scale(0.6); }
+  50% { opacity: 0.8; transform: scale(0.9); }
+}
+
+@keyframes glow-outer-thinking {
+  0%, 100% { opacity: 0.3; transform: scale(1.5); }
+  50% { opacity: 0.8; transform: scale(1.725); }
+}
+@keyframes glow-inner-thinking {
+  0%, 100% { opacity: 0.2; transform: scale(0.84); }
+  50% { opacity: 0.7; transform: scale(1.32); }
+}
+@keyframes glow-core-thinking {
+  0%, 100% { opacity: 0.15; transform: scale(0.45); }
+  50% { opacity: 0.5; transform: scale(0.75); }
+}
+
+@keyframes orbit-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes energy-ring-expand-1 {
+  0% { transform: scale(1); opacity: 0.3; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+@keyframes energy-ring-expand-2 {
+  0% { transform: scale(1); opacity: 0.2; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* Idle */
+.logo-entity-idle .logo-core { animation: logo-rotate 20s linear infinite; }
+.logo-entity-idle .logo-glow-outer { animation: glow-outer-idle 4s ease-in-out infinite; }
+.logo-entity-idle .logo-glow-inner { animation: glow-inner-idle 3s ease-in-out infinite; }
+.logo-entity-idle .logo-glow-core { animation: glow-core-idle 2s ease-in-out infinite; }
+.logo-entity-idle .logo-orbit-wrapper { animation: orbit-spin 4s linear infinite; }
+.logo-entity-idle .logo-energy-ring-1 { animation: energy-ring-expand-1 3s ease-out infinite; }
+.logo-entity-idle .logo-energy-ring-2 { animation: energy-ring-expand-2 4s ease-out infinite 0.5s; }
+
+/* Speaking */
+.logo-entity-speaking .logo-core { animation: logo-wobble 0.4s ease-in-out infinite; }
+.logo-entity-speaking .logo-glow-outer { animation: glow-outer-speaking 0.25s ease-in-out infinite; }
+.logo-entity-speaking .logo-glow-inner { animation: glow-inner-speaking 0.2s ease-in-out infinite; }
+.logo-entity-speaking .logo-glow-core { animation: glow-core-speaking 0.3s ease-in-out infinite; }
+.logo-entity-speaking .logo-orbit-wrapper { animation: orbit-spin 1s linear infinite; }
+.logo-entity-speaking .logo-energy-ring-1 { animation: energy-ring-expand-1 0.8s ease-out infinite; }
+.logo-entity-speaking .logo-energy-ring-2 { animation: energy-ring-expand-2 1s ease-out infinite 0.5s; }
+
+/* Thinking */
+.logo-entity-thinking .logo-core { animation: logo-rotate-think 3s linear infinite; }
+.logo-entity-thinking .logo-glow-outer { animation: glow-outer-thinking 1s ease-in-out infinite; }
+.logo-entity-thinking .logo-glow-inner { animation: glow-inner-thinking 0.8s ease-in-out infinite; }
+.logo-entity-thinking .logo-glow-core { animation: glow-core-thinking 1s ease-in-out infinite; }
+.logo-entity-thinking .logo-orbit-wrapper { animation: orbit-spin 4s linear infinite; }
+.logo-entity-thinking .logo-energy-ring-1 { animation: energy-ring-expand-1 3s ease-out infinite; }
+.logo-entity-thinking .logo-energy-ring-2 { animation: energy-ring-expand-2 4s ease-out infinite 0.5s; }
+
+/* Dormant */
+.logo-entity-dormant .logo-core { animation: logo-rotate 40s linear infinite; }
+.logo-entity-dormant .logo-glow-outer { opacity: 0.2; transform: scale(1.5); }
+.logo-entity-dormant .logo-glow-inner { opacity: 0.1; transform: scale(0.96); }
+.logo-entity-dormant .logo-glow-core { opacity: 0.1; transform: scale(0.4); }
+.logo-entity-dormant .logo-orbit-wrapper { animation: orbit-spin 8s linear infinite; }
+.logo-entity-dormant .logo-orbit-dot { opacity: 0.3; }
+
+/* ========================================
+   WhyUs orbital visualization
+   ======================================== */
+@keyframes whyus-sphere-pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 20px rgba(0, 245, 255, 0.3); }
+  50% { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 40px rgba(0, 245, 255, 0.5); }
+}
+.whyus-center-sphere {
+  animation: whyus-sphere-pulse 3s ease-in-out infinite;
+}
+
+@keyframes whyus-orbit-ring-spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+.whyus-orbit-ring {
+  animation: whyus-orbit-ring-spin linear infinite;
+}
+
+/* ========================================
+   Reduced motion preference
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
