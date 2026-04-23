@@ -4,7 +4,7 @@ import { HeroSection } from "@/app/hero/HeroSection";
 import { ProblemSection } from "@/app/problem/ProblemSection";
 import { ServicesSection } from "@/app/our-services/ServicesSection";
 import { WhyUsSection } from "@/app/about-us/WhyUsSection";
-import { ProcessSection } from "@/app/our-process/ProcessSection";
+import { ComparisonSection } from "@/app/comparison/ComparisonSection";
 import { Footer } from "@/components/Footer";
 
 export default function Home() {
@@ -17,8 +17,10 @@ export default function Home() {
       <ProblemSection />
       <ServicesSection />
       <WhyUsSection />
-      <ProcessSection />
-      <Footer />
+      <div className="snap-end">
+        <ComparisonSection />
+        <Footer />
+      </div>
     </main>
   );
 }

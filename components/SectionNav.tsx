@@ -14,7 +14,7 @@ const sections: Section[] = [
   { id: "problem", label: "El Problema" },
   { id: "services", label: "Servicios" },
   { id: "why-us", label: "Por Qué Nosotros" },
-  { id: "process", label: "Proceso" },
+  { id: "comparison", label: "Manual vs IA" },
 ];
 
 
@@ -23,27 +23,35 @@ export function SectionNav() {
   const [hoveredIndex, setHoveredIndex] = useState<number | "ai" | null>(null);
 
   useEffect(() => {
-    const elements = sections
-      .map((s) => document.getElementById(s.id))
-      .filter(Boolean) as HTMLElement[];
+    let ticking = false;
+    const handleScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 10;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-
-          const index = sections.findIndex((s) => s.id === entry.target.id);
-          if (index !== -1) setActiveSection(index);
-        });
-      },
-      { threshold: 0.55 }
-    );
-
-    elements.forEach((el) => observer.observe(el));
-
-    return () => {
-      elements.forEach((el) => observer.unobserve(el));
+        if (isAtBottom) {
+          setActiveSection(sections.length - 1);
+        } else {
+          const viewportThird = window.innerHeight / 3;
+          for (let i = sections.length - 1; i >= 0; i--) {
+            const el = document.getElementById(sections[i].id);
+            if (el) {
+              const rect = el.getBoundingClientRect();
+              if (rect.top <= viewportThird) {
+                setActiveSection(i);
+                break;
+              }
+            }
+          }
+        }
+        ticking = false;
+      });
     };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const scrollToSection = (index: number) => {
@@ -171,27 +179,35 @@ export function HamburgerMenu() {
   }, [isOpen]);
 
   useEffect(() => {
-    const elements = sections
-      .map((s) => document.getElementById(s.id))
-      .filter(Boolean) as HTMLElement[];
+    let ticking = false;
+    const handleScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 10;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-
-          const index = sections.findIndex((s) => s.id === entry.target.id);
-          if (index !== -1) setActiveSection(index);
-        });
-      },
-      { threshold: 0.25 }
-    );
-
-    elements.forEach((el) => observer.observe(el));
-
-    return () => {
-      elements.forEach((el) => observer.unobserve(el));
+        if (isAtBottom) {
+          setActiveSection(sections.length - 1);
+        } else {
+          const viewportThird = window.innerHeight / 3;
+          for (let i = sections.length - 1; i >= 0; i--) {
+            const el = document.getElementById(sections[i].id);
+            if (el) {
+              const rect = el.getBoundingClientRect();
+              if (rect.top <= viewportThird) {
+                setActiveSection(i);
+                break;
+              }
+            }
+          }
+        }
+        ticking = false;
+      });
     };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const scrollToSection = (index: number) => {

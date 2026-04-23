@@ -114,7 +114,7 @@ export function ProcessSection() {
     <section
       id="process"
       ref={ref}
-      className="snap-full relative w-full flex items-center justify-center px-4 sm:px-6 py-16 md:py-24 overflow-hidden"
+      className="relative w-full flex items-center justify-center px-4 sm:px-6 py-16 md:py-24 overflow-hidden"
     >
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150vw] md:w-200 h-[150vw] md:h-200 bg-[#7B2FFF]/5 rounded-full blur-3xl pointer-events-none" />
 

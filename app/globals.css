@@ -35,7 +35,7 @@
 }
 
 @theme inline {
-  --font-sans:var(--font-dm-sans),system-ui,sans-serif;
+  --font-sans:var(--font-jetbrains-mono),monospace;
   --font-mono:var(--font-jetbrains-mono),monospace;
   --font-display:var(--font-syne),system-ui,sans-serif;
 
@@ -107,6 +107,10 @@
     contain: layout style paint;
   }
 
+  .snap-end {
+    position: relative;
+  }
+
   @media (min-width: 768px) {
     html {
       scroll-snap-type: y mandatory;
@@ -122,6 +126,10 @@
     .snap-full {
       scroll-snap-align: start;
       scroll-snap-stop: always;
+    }
+
+    .snap-end {
+      scroll-snap-align: start;
     }
   }
 

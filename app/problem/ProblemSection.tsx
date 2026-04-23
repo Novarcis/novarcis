@@ -14,7 +14,6 @@ const painPoints = [
             <stop offset="100%" stopColor="#7B2FFF" />
           </linearGradient>
         </defs>
-
         <rect
           x="18"
           y="18"
@@ -25,46 +24,18 @@ const painPoints = [
           stroke="url(#grad1)"
           strokeWidth="2"
         />
-
         <line x1="24" y1="28" x2="42" y2="28" stroke="#00F5FF" strokeWidth="2" />
         <line x1="24" y1="36" x2="38" y2="36" stroke="#7B2FFF" strokeWidth="2" />
         <line x1="24" y1="44" x2="36" y2="44" stroke="#7B2FFF" strokeWidth="2" />
-
-        <circle
-          cx="50"
-          cy="48"
-          r="12"
-          fill="none"
-          stroke="#FF2D78"
-          strokeWidth="2"
-        />
-
-        <line
-          x1="50"
-          y1="48"
-          x2="50"
-          y2="42"
-          stroke="#FF2D78"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-
-        <line
-          x1="50"
-          y1="48"
-          x2="56"
-          y2="52"
-          stroke="#FF2D78"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-
+        <circle cx="50" cy="48" r="12" fill="none" stroke="#FF2D78" strokeWidth="2" />
+        <line x1="50" y1="48" x2="50" y2="42" stroke="#FF2D78" strokeWidth="2" strokeLinecap="round" />
+        <line x1="50" y1="48" x2="56" y2="52" stroke="#FF2D78" strokeWidth="2" strokeLinecap="round" />
         <circle cx="50" cy="48" r="2" fill="#FF2D78" />
       </svg>
     ),
-    title: "Procesos manuales lentos",
+    title: "Tu equipo pierde horas cada día",
     description:
-      "Horas perdidas en tareas repetitivas que una máquina podría hacer en segundos.",
+      "Mientras repites tareas que una máquina hace en segundos, alguien en tu sector ya lo automatizó.",
   },
   {
     icon: (
@@ -85,14 +56,7 @@ const painPoints = [
           stroke="url(#grad2)"
           strokeWidth="2"
         />
-        <line
-          x1="15"
-          y1="35"
-          x2="65"
-          y2="35"
-          stroke="url(#grad2)"
-          strokeWidth="2"
-        />
+        <line x1="15" y1="35" x2="65" y2="35" stroke="url(#grad2)" strokeWidth="2" />
         <circle cx="25" cy="27" r="3" fill="#FF2D78" />
         <circle cx="35" cy="27" r="3" fill="#7B2FFF" />
         <circle cx="45" cy="27" r="3" fill="#00F5FF" />
@@ -108,9 +72,9 @@ const painPoints = [
         </text>
       </svg>
     ),
-    title: "Sistemas desconectados",
+    title: "Tus herramientas no se hablan entre sí",
     description:
-      "Datos dispersos en 10 plataformas diferentes. Sin visión unificada.",
+      "Datos dispersos en 10 plataformas. Sin visión clara. Los sistemas desconectados son el ancla que no te deja crecer.",
   },
   {
     icon: (
@@ -121,32 +85,9 @@ const painPoints = [
             <stop offset="100%" stopColor="#FF2D78" />
           </linearGradient>
         </defs>
-        <circle
-          cx="40"
-          cy="40"
-          r="25"
-          fill="none"
-          stroke="url(#grad3)"
-          strokeWidth="2"
-        />
-        <line
-          x1="40"
-          y1="25"
-          x2="40"
-          y2="40"
-          stroke="#00F5FF"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-        <line
-          x1="40"
-          y1="40"
-          x2="52"
-          y2="45"
-          stroke="#FF2D78"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
+        <circle cx="40" cy="40" r="25" fill="none" stroke="url(#grad3)" strokeWidth="2" />
+        <line x1="40" y1="25" x2="40" y2="40" stroke="#00F5FF" strokeWidth="2" strokeLinecap="round" />
+        <line x1="40" y1="40" x2="52" y2="45" stroke="#FF2D78" strokeWidth="2" strokeLinecap="round" />
         <circle cx="40" cy="40" r="3" fill="#00F5FF" />
         <path
           d="M40 12 L43 18 L40 16 L37 18 Z"
@@ -155,9 +96,9 @@ const painPoints = [
         />
       </svg>
     ),
-    title: "Escalado imposible",
+    title: "Crecer se vuelve imposible",
     description:
-      "Crecer significa más caos. Tu infraestructura no acompaña tu ambición.",
+      "Más clientes = más caos. Tu infraestructura no acompaña tu ambición y el mercado no espera.",
   },
 ];
 

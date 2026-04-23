@@ -10,8 +10,7 @@ const navItems: NavItem[] = [
   { id: "problem", label: "Problema", type: "scroll" },
   { id: "services", label: "Servicios", type: "scroll" },
   { id: "why-us", label: "Nosotros", type: "scroll" },
-  { id: "process", label: "Proceso", type: "scroll" },
-  { id: "chat", label: "IA", type: "event" }
+  { id: "comparison", label: "Manual vs IA", type: "scroll" },
 ];
 
 export function IslandNav() {
@@ -41,13 +40,16 @@ export function IslandNav() {
           }
 
           const scrollItems = navItems.filter(i => i.type === "scroll");
-          const scrollPosition = window.scrollY + window.innerHeight / 3;
+          const viewportThird = window.innerHeight / 3;
 
           for (let i = scrollItems.length - 1; i >= 0; i--) {
             const section = document.getElementById(scrollItems[i].id);
-            if (section && section.offsetTop <= scrollPosition) {
-              setActiveSection(prev => prev !== scrollItems[i].id ? scrollItems[i].id : prev);
-              break;
+            if (section) {
+              const rect = section.getBoundingClientRect();
+              if (rect.top <= viewportThird) {
+                setActiveSection(prev => prev !== scrollItems[i].id ? scrollItems[i].id : prev);
+                break;
+              }
             }
           }
           scrollTicking = false;
