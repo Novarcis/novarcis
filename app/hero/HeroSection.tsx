@@ -1,22 +1,24 @@
 "use client";
 import { LogoEntity } from "@/components/LogoEntity";
-import { useMemo } from "react";
 import Link from "next/link";
+
+// Fixed particle positions — avoids Math.random() hydration mismatch
+const particles = [
+  { x: 12, y: 8, d: 3.4, delay: 0.2 },
+  { x: 55, y: 62, d: 4.1, delay: 1.1 },
+  { x: 38, y: 25, d: 3.8, delay: 0.7 },
+  { x: 73, y: 68, d: 4.5, delay: 1.4 },
+  { x: 78, y: 5, d: 3.2, delay: 0.4 },
+  { x: 25, y: 91, d: 4.8, delay: 1.8 },
+  { x: 85, y: 34, d: 3.6, delay: 0.9 },
+  { x: 45, y: 3, d: 4.3, delay: 1.6 },
+  { x: 14, y: 47, d: 3.1, delay: 0.5 },
+  { x: 63, y: 82, d: 3.9, delay: 1.2 },
+];
 
 export function HeroSection() {
   const title1 = "¿Quieres ser el último en la humanidad?";
   const title2 = "O te adaptas o te adaptamos.";
-
-  const particles = useMemo(
-    () =>
-      Array.from({ length: 10 }).map(() => ({
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        d: 3 + Math.random() * 2,
-        delay: Math.random() * 2,
-      })),
-    []
-  );
 
   const renderAnimated = (text: string, startDelay: number, color: string) => {
     return text.split(" ").map((word, index, array) => {

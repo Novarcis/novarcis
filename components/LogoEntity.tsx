@@ -17,22 +17,12 @@ const sizeMap = {
   xl: 400,
 };
 
-const particleColors = [
-  "#a78bfa", "#fbbf24", "#00F5FF",
-  "#a78bfa", "#fbbf24", "#00F5FF",
-  "#a78bfa", "#fbbf24",
-];
-
-const particleShadows = [
-  "0 0 8px rgba(167, 139, 250, 0.8)",
-  "0 0 8px rgba(251, 191, 36, 0.8)",
-  "0 0 8px rgba(0, 245, 255, 0.8)",
-  "0 0 8px rgba(167, 139, 250, 0.8)",
-  "0 0 8px rgba(251, 191, 36, 0.8)",
-  "0 0 8px rgba(0, 245, 255, 0.8)",
-  "0 0 8px rgba(167, 139, 250, 0.8)",
-  "0 0 8px rgba(251, 191, 36, 0.8)",
-];
+const imageSizes: Record<string, string> = {
+  sm: "80px",
+  md: "150px",
+  lg: "280px",
+  xl: "400px",
+};
 
 export function LogoEntity({
   state = "idle",
@@ -73,52 +63,23 @@ export function LogoEntity({
         }}
       />
 
-      {/* Orbiting particles - CSS only, no JS per-frame trig */}
-      {[...Array(8)].map((_, i) => (
-        <div
-          key={i}
-          className="logo-orbit-wrapper absolute inset-0"
-          style={{ animationDelay: `${-i * 0.5}s` }}
-        >
-          <div
-            className="logo-orbit-dot absolute rounded-full"
-            style={{
-              width: 3,
-              height: 3,
-              background: particleColors[i],
-              boxShadow: particleShadows[i],
-              top: "5%",
-              left: "50%",
-              transform: "translateX(-50%)",
-            }}
-          />
-        </div>
-      ))}
-
-      {/* Main logo image with rotation */}
+      {/* Main logo image */}
       <div
-        className="logo-core relative w-full h-full will-change-transform"
+        className={`logo-core relative w-full h-full${state !== "idle" && state !== "dormant" ? " will-change-transform" : ""}`}
         style={{ transformOrigin: "center center" }}
       >
         <Image
           src="/images/Logo-novarcis.webp"
           alt="Novarcis Logo"
           fill
+          sizes={imageSizes[size]}
           className="object-contain"
           style={{
             filter: "drop-shadow(0 0 15px rgba(167, 139, 250, 0.4))",
           }}
-          priority
+          priority={size === "md" || size === "lg"}
         />
       </div>
-
-      {/* Energy pulse rings */}
-      {state !== "dormant" && (
-        <>
-          <div className="logo-energy-ring-1 absolute inset-0 rounded-full border border-violet-400/30" />
-          <div className="logo-energy-ring-2 absolute inset-0 rounded-full border border-amber-400/20" />
-        </>
-      )}
     </div>
   );
 }

@@ -1,0 +1,16 @@
+{
+  "name": "Novarcis — Desarrollo de Software Inteligente",
+  "short_name": "Novarcis",
+  "description": "Soluciones de IA a medida: automatización, agentes inteligentes y arquitecturas escalables.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080A0F",
+  "theme_color": "#00F5FF",
+  "icons": [
+    {
+      "src": "/images/Logo-novarcis.webp",
+      "sizes": "512x512",
+      "type": "image/webp"
+    }
+  ]
+}

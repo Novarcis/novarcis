@@ -380,53 +380,27 @@
   50% { opacity: 0.5; transform: scale(0.75); }
 }
 
-@keyframes orbit-spin {
-  to { transform: rotate(360deg); }
-}
-
-@keyframes energy-ring-expand-1 {
-  0% { transform: scale(1); opacity: 0.3; }
-  100% { transform: scale(1.4); opacity: 0; }
-}
-@keyframes energy-ring-expand-2 {
-  0% { transform: scale(1); opacity: 0.2; }
-  100% { transform: scale(1.6); opacity: 0; }
-}
-
-/* Idle */
-.logo-entity-idle .logo-core { animation: logo-rotate 20s linear infinite; }
+/* Idle — glow aura only */
 .logo-entity-idle .logo-glow-outer { animation: glow-outer-idle 4s ease-in-out infinite; }
 .logo-entity-idle .logo-glow-inner { animation: glow-inner-idle 3s ease-in-out infinite; }
 .logo-entity-idle .logo-glow-core { animation: glow-core-idle 2s ease-in-out infinite; }
-.logo-entity-idle .logo-orbit-wrapper { animation: orbit-spin 4s linear infinite; }
-.logo-entity-idle .logo-energy-ring-1 { animation: energy-ring-expand-1 3s ease-out infinite; }
-.logo-entity-idle .logo-energy-ring-2 { animation: energy-ring-expand-2 4s ease-out infinite 0.5s; }
 
 /* Speaking */
 .logo-entity-speaking .logo-core { animation: logo-wobble 0.4s ease-in-out infinite; }
 .logo-entity-speaking .logo-glow-outer { animation: glow-outer-speaking 0.25s ease-in-out infinite; }
 .logo-entity-speaking .logo-glow-inner { animation: glow-inner-speaking 0.2s ease-in-out infinite; }
 .logo-entity-speaking .logo-glow-core { animation: glow-core-speaking 0.3s ease-in-out infinite; }
-.logo-entity-speaking .logo-orbit-wrapper { animation: orbit-spin 1s linear infinite; }
-.logo-entity-speaking .logo-energy-ring-1 { animation: energy-ring-expand-1 0.8s ease-out infinite; }
-.logo-entity-speaking .logo-energy-ring-2 { animation: energy-ring-expand-2 1s ease-out infinite 0.5s; }
 
 /* Thinking */
 .logo-entity-thinking .logo-core { animation: logo-rotate-think 3s linear infinite; }
 .logo-entity-thinking .logo-glow-outer { animation: glow-outer-thinking 1s ease-in-out infinite; }
 .logo-entity-thinking .logo-glow-inner { animation: glow-inner-thinking 0.8s ease-in-out infinite; }
 .logo-entity-thinking .logo-glow-core { animation: glow-core-thinking 1s ease-in-out infinite; }
-.logo-entity-thinking .logo-orbit-wrapper { animation: orbit-spin 4s linear infinite; }
-.logo-entity-thinking .logo-energy-ring-1 { animation: energy-ring-expand-1 3s ease-out infinite; }
-.logo-entity-thinking .logo-energy-ring-2 { animation: energy-ring-expand-2 4s ease-out infinite 0.5s; }
 
 /* Dormant */
-.logo-entity-dormant .logo-core { animation: logo-rotate 40s linear infinite; }
 .logo-entity-dormant .logo-glow-outer { opacity: 0.2; transform: scale(1.5); }
 .logo-entity-dormant .logo-glow-inner { opacity: 0.1; transform: scale(0.96); }
 .logo-entity-dormant .logo-glow-core { opacity: 0.1; transform: scale(0.4); }
-.logo-entity-dormant .logo-orbit-wrapper { animation: orbit-spin 8s linear infinite; }
-.logo-entity-dormant .logo-orbit-dot { opacity: 0.3; }
 
 /* ========================================
    WhyUs orbital visualization
