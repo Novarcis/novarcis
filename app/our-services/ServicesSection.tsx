@@ -9,7 +9,7 @@ const services = [
     tier: "Tier 1",
     name: "Automatización No-Code",
     description:
-      "Flujos de trabajo automatizados con N8N, Make y Zapier. Ideal para empezar rápido sin desarrollo complejo.",
+      "Flujos de trabajo automatizados con N8N. Ideal para empezar rápido sin desarrollo complejo.",
     complexity: "Accesible",
     color: "#00F5FF",
     icon: (
