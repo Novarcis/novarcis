@@ -110,12 +110,9 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-10 pt-6 border-t border-[#1a1f2e] flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="mt-10 pt-6 border-t border-[#1a1f2e] flex items-center justify-center">
           <p className="text-[#6B7A99] text-xs font-mono">
             &copy; {new Date().getFullYear()} Novarcis. Todos los derechos reservados.
-          </p>
-          <p className="text-[#6B7A99]/50 text-[10px] font-mono uppercase tracking-widest">
-            Hecho con IA desde Morelia
           </p>
         </div>
       </div>
