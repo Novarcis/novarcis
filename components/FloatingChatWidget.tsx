@@ -222,7 +222,7 @@ export function FloatingChatWidget() {
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0, opacity: 0, y: 20 }}
                         transition={{ type: "spring", stiffness: 260, damping: 20 }}
-                        className="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 z-[100] group"
+                        className="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 z-100 group"
                         onMouseEnter={() => setIsHoveringWidget(true)}
                         onMouseLeave={() => setIsHoveringWidget(false)}
                     >
@@ -231,7 +231,7 @@ export function FloatingChatWidget() {
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: isHoveringWidget ? 1 : 0, x: isHoveringWidget ? 0 : 20 }}
                             transition={{ duration: 0.2 }}
-                            className="absolute right-[115%] top-1/2 -translate-y-1/2 px-4 py-2 bg-[#0D1117]/90 backdrop-blur-md border border-[#00F5FF]/30 rounded-xl whitespace-nowrap text-[#E8EDF5] shadow-xl text-sm font-medium mr-2"
+                            className="hidden md:block absolute right-[115%] top-1/2 -translate-y-1/2 px-4 py-2 bg-[#0D1117]/90 backdrop-blur-md border border-[#00F5FF]/30 rounded-xl whitespace-nowrap text-[#E8EDF5] shadow-xl text-sm font-medium mr-2"
                         >
                             Habla con nuestra Inteligencia Artificial
                         </motion.div>
@@ -257,7 +257,7 @@ export function FloatingChatWidget() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 20, scale: 0.95 }}
                         transition={{ type: "spring", damping: 25, stiffness: 250 }}
-                        className="fixed bottom-0 right-0 sm:bottom-6 sm:right-6 w-full sm:w-[400px] h-[100dvh] sm:h-[650px] max-h-[100dvh] z-[100] sm:rounded-2xl border-0 sm:border border-[#1a1f2e] bg-[#060810]/95 backdrop-blur-3xl shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col"
+                        className="fixed bottom-0 right-0 sm:bottom-6 sm:right-6 w-full sm:w-[400px] h-dvh sm:h-[650px] max-h-dvh z-100 sm:rounded-2xl border-0 sm:border border-[#1a1f2e] bg-[#060810]/95 backdrop-blur-3xl shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col"
                     >
                         {/* Header */}
                         <div className="shrink-0 flex items-center justify-between px-5 py-4 bg-[#080A0F] border-b border-[#1a1f2e] z-10 shadow-md">
@@ -284,7 +284,7 @@ export function FloatingChatWidget() {
                         </div>
 
                         {/* Chat Body */}
-                        <div className="flex-1 overflow-y-auto px-4 py-5 space-y-4 scrollbar-thin scrollbar-thumb-[#1a1f2e] scrollbar-track-transparent bg-gradient-to-b from-transparent to-[#080A0F]/20 relative">
+                        <div className="flex-1 overflow-y-auto px-4 py-5 space-y-4 scrollbar-thin scrollbar-thumb-[#1a1f2e] scrollbar-track-transparent bg-linear-to-b from-transparent to-[#080A0F]/20 relative">
                             <AnimatePresence initial={false}>
                                 {messages.map((message) => (
                                     <MessageBubble key={message.id} message={message} />
@@ -303,7 +303,7 @@ export function FloatingChatWidget() {
                         </div>
 
                         {/* Input Area */}
-                        <div className="shrink-0 p-3 pt-2 bg-[#080A0F] border-t border-[#1a1f2e] z-10 w-full mb-0 sm:mb-2 max-w-[100%] overflow-hidden">
+                        <div className="shrink-0 p-3 pt-2 bg-[#080A0F] border-t border-[#1a1f2e] z-10 w-full mb-0 sm:mb-2 max-w-full overflow-hidden">
                             <div className="flex items-end gap-2 bg-[#10141d] border border-[#1a1f2e] rounded-xl pl-3 pr-1.5 py-1.5 focus-within:border-[#00F5FF]/50 transition-colors shadow-inner">
 
                                 <textarea
@@ -328,7 +328,7 @@ export function FloatingChatWidget() {
                                     className="shrink-0 w-9 h-9 flex items-center justify-center rounded-lg bg-[#00F5FF]/10 hover:bg-[#00F5FF]/20 text-[#00F5FF] disabled:opacity-30 disabled:hover:bg-[#00F5FF]/10 transition-all mb-0.5"
                                     aria-label="Enviar"
                                 >
-                                    <Send size={15} className="transform translate-x-[1px] translate-y-[1px]" />
+                                    <Send size={15} className="transform translate-x-px translate-y-px" />
                                 </button>
                             </div>
 
