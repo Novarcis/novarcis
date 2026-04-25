@@ -17,7 +17,7 @@ export default function Home() {
       <ProblemSection />
       <ServicesSection />
       <WhyUsSection />
-      <div className="snap-end">
+      <div className="snap-tail">
         <ComparisonSection />
         <Footer />
       </div>
