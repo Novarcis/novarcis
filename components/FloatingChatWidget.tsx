@@ -167,6 +167,12 @@ export function FloatingChatWidget() {
                 content: msg.content,
             }));
 
+            let sessionId = sessionStorage.getItem("chatSessionId");
+            if (!sessionId) {
+                sessionId = "session-" + Date.now();
+                sessionStorage.setItem("chatSessionId", sessionId);
+            }
+
             const response = await fetch("/api/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -174,8 +180,7 @@ export function FloatingChatWidget() {
                     message: userMessage.content,
                     conversationHistory,
                     name: "visitante",
-                    sessionId:
-                        sessionStorage.getItem("chatSessionId") || "session-" + Date.now(),
+                    sessionId,
                 }),
             });
 
@@ -185,7 +190,7 @@ export function FloatingChatWidget() {
             const assistantMessage: Message = {
                 id: generateId(),
                 role: "assistant",
-                content: data.reply || "Lo siento, no pude procesar tu mensaje.",
+                content: data.message || data.reply || "Lo siento, no pude procesar tu mensaje.",
                 timestamp: new Date(),
             };
 

@@ -39,6 +39,12 @@ export class N8nService {
         }
 
         try {
+            const history = Array.isArray(payload.conversationHistory) ? payload.conversationHistory : [];
+            const messages = [
+                ...history,
+                { role: "user" as const, content: payload.message },
+            ];
+
             const response = await fetch(this.webhookUrl, {
                 method: "POST",
                 headers: {
@@ -46,10 +52,10 @@ export class N8nService {
                     Accept: "application/json",
                 },
                 body: JSON.stringify({
-                    message: payload.message,
-                    conversationHistory: payload.conversationHistory,
-                    name: payload.name || "visitante",
-                    sessionId: payload.sessionId,
+                    messages,
+                    session_id: payload.sessionId || "",
+                    user_id: payload.name || "visitante",
+                    locale: "es",
                     timestamp: new Date().toISOString(),
                 }),
             });
