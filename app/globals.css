@@ -107,7 +107,7 @@
     contain: layout style paint;
   }
 
-  .snap-end {
+  .snap-tail {
     position: relative;
   }
 
@@ -128,7 +128,7 @@
       scroll-snap-stop: always;
     }
 
-    .snap-end {
+    .snap-tail {
       scroll-snap-align: start;
     }
   }
