@@ -125,7 +125,7 @@ export function HeroSection() {
           </button>
 
           <Link
-            href="https://wa.me/numerodeejemplo"
+            href="https://wa.me/5667677144"
             target="_blank"
             className="w-full sm:w-auto"
           >

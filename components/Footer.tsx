@@ -93,7 +93,7 @@ export function Footer() {
               </Link>
 
               <Link
-                href="https://wa.me/numerodeejemplo"
+                href="https://wa.me/5667677144"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 text-[#6B7A99] hover:text-[#25D366] transition-colors group"
